@@ -12,9 +12,10 @@ import java.sql.DriverManager;
  * @author clide
  */
 public class Conexion {
-    private String url = "jdbc:sqlserver://localhost;databaseName=BD_BodegaElmer_Almacen;encrypt=false;";
-    private String user = "sa";
-    private String password = "masterdatabase31";
+    private String url = "jdbc:sqlserver://localhost:1433;" 
+            + "database=BD_BodegaElmer_Almacen;" + "user=sa;" + "password=masterdatabase31;" +"trustServerCertificate=true;";
+    private String user = "root";
+    private String password = "321";
     private String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     
     public Connection getCn(){
@@ -26,7 +27,7 @@ public class Conexion {
             Class.forName(driver);
             
             //Realizamos la conexion usando el driver manager y su propiedad tomar conexion
-            cn = DriverManager.getConnection(url, user, password);
+            cn = DriverManager.getConnection(url);
             
             //Imprimimos por consola para ve que todo vaya bien
             System.out.println("Conexion establecida...");

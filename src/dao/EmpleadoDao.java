@@ -1,0 +1,87 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package dao;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author clide
+ */
+public class EmpleadoDao {
+    Conexion cnx = new Conexion();
+    Connection cn = cnx.getCn();
+    
+    public DefaultTableModel crearMdlEmpleado(){
+        DefaultTableModel mdl = new DefaultTableModel();
+        try {
+           String sql = "SELECT dbo.Tb_Empleado.CodEmpleado, dbo.Tb_Empleado.Apellidos, dbo.Tb_Empleado.Nombres, dbo.Tb_Empleado.Fec_Nac, dbo.Tb_Empleado.Sexo, dbo.Tb_Empleado.Estado_Civil, dbo.Tb_Nacionalidad.Nacionalidad, \n" +
+                        " dbo.Tb_Doc_Identidad.Documento_Identidad, dbo.Tb_Empleado.NumDoc_Identidad, dbo.Tb_Empleado.Nro_Hijos, dbo.Tb_Distrito.Distrito, dbo.Tb_Provincia.Provincia, dbo.Tb_Departamento.Departamento, \n" +
+                        " dbo.Tb_Empleado.Direccion, dbo.Tb_Empleado.Email, dbo.Tb_Empleado.Telefono, dbo.Tb_Empleado.Fec_Registro, dbo.Tb_Empleado.Foto, dbo.Tb_Empleado.Estado_Empleado\n" +
+                        "FROM  dbo.Tb_Empleado INNER JOIN\n" +
+                        " dbo.Tb_Distrito ON dbo.Tb_Empleado.CodDistrito = dbo.Tb_Distrito.CodDistrito INNER JOIN\n" +
+                        " dbo.Tb_Doc_Identidad ON dbo.Tb_Empleado.CodTipo_Doc = dbo.Tb_Doc_Identidad.CodTipo_Doc INNER JOIN\n" +
+                        " dbo.Tb_Nacionalidad ON dbo.Tb_Empleado.CodNacionalidad = dbo.Tb_Nacionalidad.CodNacionalidad INNER JOIN\n" +
+                        " dbo.Tb_Provincia ON dbo.Tb_Distrito.CodProvincia = dbo.Tb_Provincia.CodProvincia INNER JOIN\n" +
+                        " dbo.Tb_Departamento ON dbo.Tb_Provincia.CodDepartamento = dbo.Tb_Departamento.CodDepartamento";
+           
+           
+           Statement st = cn.createStatement();
+           ResultSet rs = st.executeQuery(sql);
+           mdl.addColumn("Cod Empleado");
+           mdl.addColumn("Apellidos");
+           mdl.addColumn("Nombres");
+           mdl.addColumn("Fecha Nacimiento");
+           mdl.addColumn("Sexo");
+           mdl.addColumn("Estado Civil");
+           mdl.addColumn("Nacionalidad");
+           mdl.addColumn("Tipo de Documento");
+           mdl.addColumn("Numero de Documento");
+           mdl.addColumn("Numero de Hijos");
+           mdl.addColumn("Distrito");
+           mdl.addColumn("Provincia");
+           mdl.addColumn("Departamento");
+           mdl.addColumn("Direccion");
+           mdl.addColumn("Email");
+           mdl.addColumn("Telefono");
+           mdl.addColumn("Fecha Registro");
+           mdl.addColumn("Foto");
+           mdl.addColumn("Estado Empleado");
+           
+           while(rs.next()){
+               Object data[] = {
+                   rs.getString(1),
+                   rs.getString(2),
+                   rs.getString(3),
+                   rs.getDate(4),
+                   rs.getString(5),
+                   rs.getString(6),
+                   rs.getString(7),
+                   rs.getString(8),
+                   rs.getString(9),
+                   rs.getInt(10),
+                   rs.getString(11),
+                   rs.getString(12),
+                   rs.getString(13),
+                   rs.getString(14),
+                   rs.getString(15),
+                   rs.getString(16),
+                   rs.getDate(17),
+                   rs.getString(18),
+                   rs.getString(19)
+                   
+               };
+               mdl.addRow(data);
+           }
+            
+        } catch (Exception e) {
+            System.out.println("Error en crearEmpleadoMdl " + e.getMessage());
+        }
+        return mdl;
+    }
+}
