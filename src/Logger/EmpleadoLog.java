@@ -4,6 +4,7 @@
  */
 package Logger;
 
+import Model.Empleado;
 import dao.EmpleadoDao;
 import javax.swing.table.DefaultTableModel;
 
@@ -12,8 +13,12 @@ import javax.swing.table.DefaultTableModel;
  * @author clide
  */
 public class EmpleadoLog {
-    EmpleadoDao emp = new EmpleadoDao();
+    EmpleadoDao objDao = new EmpleadoDao();
+    
     public DefaultTableModel crearMdlEmpleado(){
-        return emp.crearMdlEmpleado();
+        return objDao.crearMdlEmpleado();
     }
+     public Empleado buscarEmp(String codigo){
+        return objDao.buscarEmp(codigo);
+     }
 }
