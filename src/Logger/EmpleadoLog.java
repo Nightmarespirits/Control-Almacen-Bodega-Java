@@ -6,6 +6,7 @@ package Logger;
 
 import Model.Empleado;
 import dao.EmpleadoDao;
+import java.sql.Date;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,7 +19,11 @@ public class EmpleadoLog {
     public DefaultTableModel crearMdlEmpleado(){
         return objDao.crearMdlEmpleado();
     }
-     public Empleado buscarEmp(String codigo){
-        return objDao.buscarEmp(codigo);
-     }
+    public Empleado buscarEmp(String codigo){
+       return objDao.buscarEmp(codigo);
+    }
+    public Boolean agregarEmp(Empleado emp){
+        
+        return objDao.agregarEmp(emp);
+    }
 }

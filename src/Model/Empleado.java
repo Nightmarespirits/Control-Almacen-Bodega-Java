@@ -4,7 +4,9 @@
  */
 package Model;
 
-import java.sql.Date;
+import java.util.Date;
+
+
 
 /**
  *
@@ -29,10 +31,13 @@ public class Empleado {
     private String email;
     private String telefono;
     private Date fecReg;
-    private String foto;
+    private byte[] foto;
     private String estado;
 
-    public Empleado(String cod, String nombre, String apellidos, Date fecNac, String sexo, String estCivil, String nacionalidad, String tipoDoc, String numDoc, int numHijos, String distrito, String provincia, String departamento, String direccion, String email, String telefono, Date fecReg, String foto, String estado) {
+    public Empleado(String cod, String nombre, String apellidos, Date fecNac, String sexo, 
+            String estCivil, String nacionalidad, String tipoDoc, String numDoc, int numHijos, 
+            String distrito, String provincia, String departamento, String direccion, String email, 
+            String telefono, Date fecReg, byte[] foto, String estado) {
         this.cod = cod;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -53,8 +58,32 @@ public class Empleado {
         this.foto = foto;
         this.estado = estado;
     }
-   
 
+    public Empleado(String cod, String nombre, String apellidos, Date fecNac, String sexo, String estCivil,
+            String nacionalidad, String tipoDoc, String numDoc, int numHijos, String distrito, 
+            String direccion, String email, String telefono, Date fecReg, byte[] foto, String estado) {
+        this.cod = cod;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.fecNac = fecNac;
+        this.sexo = sexo;
+        this.estCivil = estCivil;
+        this.nacionalidad = nacionalidad;
+        this.tipoDoc = tipoDoc;
+        this.numDoc = numDoc;
+        this.numHijos = numHijos;
+        this.distrito = distrito;
+        this.direccion = direccion;
+        this.email = email;
+        this.telefono = telefono;
+        this.fecReg = fecReg;
+        this.foto = foto;
+        this.estado = estado;
+    }
+   
+    
+    
+    
     //Metodos de acceso
     public String getCod(){
         return cod;
@@ -177,11 +206,11 @@ public class Empleado {
         this.fecReg = fecReg;
     }
 
-    public String getFoto() {
+    public byte[] getFoto() {
         return foto;
     }
 
-    public void setFoto(String foto) {
+    public void setFoto(byte[] foto) {
         this.foto = foto;
     }
 

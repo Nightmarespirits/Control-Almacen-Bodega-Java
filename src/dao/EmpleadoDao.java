@@ -5,6 +5,7 @@
 package dao;
 
 import Model.Empleado;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -127,7 +128,7 @@ public class EmpleadoDao {
                         rs.getString(15),
                         rs.getString(16),
                         rs.getDate(17),
-                        rs.getString(18),
+                        rs.getBytes(18),
                         rs.getString(19)                                  
                 );
             }
@@ -136,6 +137,44 @@ public class EmpleadoDao {
             System.out.print(" Error en buscar empleado empDao" +e.getMessage());
         }
         return emp;
+    }
+    
+    public Boolean agregarEmp(Empleado emp){
+        boolean band = false;
+        try {
+            CallableStatement cs = cn.prepareCall("{call usp_agregarEmpleado(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            
+            //Conversion de java.util.Date a java.sql.Date
+            java.sql.Date fecNacSql = new java.sql.Date(emp.getFecNac().getTime());
+            java.sql.Date fecRegSql = new java.sql.Date(emp.getFecReg().getTime());
+        
+            //Es una forma de enviar parametros desde el objeto env de los getter y setter
+            cs.setString(1, emp.getCod());
+            cs.setString(2, emp.getApellidos());
+            cs.setString(3, emp.getNombre());
+            cs.setDate(4,fecNacSql );
+            cs.setString(5, emp.getSexo());
+            cs.setString(6, emp.getEstCivil());
+            cs.setString(7, emp.getNacionalidad());
+            cs.setString(8, emp.getTipoDoc());
+            cs.setString(9, emp.getNumDoc());
+            cs.setInt((10),emp.getNumHijos() );
+            cs.setString(11, emp.getDistrito());
+            cs.setString(12, emp.getDireccion());
+            cs.setString(13, emp.getEmail());
+            cs.setString(14, emp.getTelefono());
+            cs.setDate((15), fecRegSql );
+            cs.setBytes(16, emp.getFoto());
+            cs.setString(17, emp.getEstado());
+            
+
+            if(cs.executeUpdate()>0){
+                band = true;
+            }
+        } catch (Exception e) {
+            System.out.print("Error en agregar empleado:" + e.getMessage());
+        }
+        return band;
     }
     
     
