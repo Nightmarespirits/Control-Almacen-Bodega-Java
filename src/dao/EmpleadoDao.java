@@ -7,8 +7,11 @@ package dao;
 import Model.Empleado;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -176,6 +179,76 @@ public class EmpleadoDao {
         }
         return band;
     }
+    
+    public String generarCodEmp(){
+        String cod = "";
+        try {
+            CallableStatement cs = cn.prepareCall("{call usp_GenerarCodEmpleado(?)}");
+            cs.registerOutParameter(1, Types.VARCHAR);
+            cs.executeUpdate();
+            cod = cs.getString(1);
+            return cod;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Imprime la información de la excepción
+            return cod;
+        }
+        
+    }
+    
+    public Boolean eliminarEmp( String cod){
+        boolean band = false;
+        try {
+            PreparedStatement ps = cn.prepareCall("delete from Tb_Empleado where CodEmpleado=?");
+            ps.setString(1,cod);
+            if(ps.executeUpdate() > 0){
+                band = true;
+            }
+        } catch (Exception e) {
+            System.out.print( e.getMessage() );
+        }
+        
+        return band;
+    }
+    
+    public Boolean actualizarEmp(Empleado emp){
+        Boolean band = false;
+        try {
+            CallableStatement cs = cn.prepareCall("{call usp_actualizarEmpleado(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            
+            //Conversion de java.util.Date a java.sql.Date
+            java.sql.Date fecNacSql = new java.sql.Date(emp.getFecNac().getTime());
+            java.sql.Date fecRegSql = new java.sql.Date(emp.getFecReg().getTime());
+        
+            //Es una forma de enviar parametros desde el objeto env de los getter y setter
+            cs.setString(1, emp.getCod());
+            cs.setString(2, emp.getApellidos());
+            cs.setString(3, emp.getNombre());
+            cs.setDate(4,fecNacSql );
+            cs.setString(5, emp.getSexo());
+            cs.setString(6, emp.getEstCivil());
+            cs.setString(7, emp.getNacionalidad());
+            cs.setString(8, emp.getTipoDoc());
+            cs.setString(9, emp.getNumDoc());
+            cs.setInt((10),emp.getNumHijos() );
+            cs.setString(11, emp.getDistrito());
+            cs.setString(12, emp.getDireccion());
+            cs.setString(13, emp.getEmail());
+            cs.setString(14, emp.getTelefono());
+            cs.setDate((15), fecRegSql );
+            cs.setBytes(16, emp.getFoto());
+            cs.setString(17, emp.getEstado());
+            
+
+            if(cs.executeUpdate()>0){
+                band = true;
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Ha ocurrido un error al actualizar empleado" + e.getMessage());
+        }
+        return band;
+    }
+    
     
     
 }

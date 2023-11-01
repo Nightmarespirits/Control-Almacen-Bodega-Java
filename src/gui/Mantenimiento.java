@@ -6,15 +6,30 @@ package gui;
 
 import Logger.EmpleadoLog;
 import Model.Empleado;
-import com.sun.prism.j2d.J2DPipeline;
+import com.sun.glass.events.KeyEvent;
 import dao.Conexion;
+import dao.Utilitarios;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+
 
 /**
  *
@@ -28,6 +43,7 @@ public class Mantenimiento extends javax.swing.JFrame {
      */
     Boolean editMode = false;
     EmpleadoLog empLog = new EmpleadoLog();
+    Utilitarios utilitarios = new Utilitarios();
     public Mantenimiento() {
         initComponents();
     }
@@ -71,7 +87,6 @@ public class Mantenimiento extends javax.swing.JFrame {
         cboNacionalidad = new javax.swing.JComboBox<>();
         cboEstadoCivil = new javax.swing.JComboBox<>();
         dcFecNacimiento = new com.toedter.calendar.JDateChooser();
-        lblFoto = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JToggleButton();
         btnEditar = new javax.swing.JToggleButton();
         btnGuardar = new javax.swing.JToggleButton();
@@ -94,6 +109,11 @@ public class Mantenimiento extends javax.swing.JFrame {
         cboEstadoEmp = new javax.swing.JComboBox<>();
         dcFecRegistro = new com.toedter.calendar.JDateChooser();
         btnSalir = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JToggleButton();
+        Foto_Container = new javax.swing.JPanel();
+        lblFoto = new javax.swing.JLabel();
+        lblRuta = new javax.swing.JLabel();
+        btnExaminar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEmpleados = new javax.swing.JTable();
@@ -110,18 +130,32 @@ public class Mantenimiento extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Datos Personales"));
 
-        txtCod.setText("E0031");
-
         jLabel1.setText("Id :");
 
-        txtNombres.setText("prueba");
         txtNombres.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombresActionPerformed(evt);
             }
         });
+        txtNombres.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNombresKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombresKeyTyped(evt);
+            }
+        });
 
         jLabel2.setText("Nombres:");
+
+        txtApellidos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtApellidosKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellidosKeyTyped(evt);
+            }
+        });
 
         jLabel3.setText("Apellidos:");
 
@@ -166,6 +200,14 @@ public class Mantenimiento extends javax.swing.JFrame {
                 txtNumDocActionPerformed(evt);
             }
         });
+        txtNumDoc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNumDocKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumDocKeyTyped(evt);
+            }
+        });
 
         jLabel8.setText(" Documento de Identidad:");
 
@@ -174,6 +216,12 @@ public class Mantenimiento extends javax.swing.JFrame {
         cboNacionalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         cboEstadoCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        dcFecNacimiento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                dcFecNacimientoKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -293,8 +341,6 @@ public class Mantenimiento extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        lblFoto.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Foto Empleado"));
-
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -303,6 +349,11 @@ public class Mantenimiento extends javax.swing.JFrame {
         });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -319,6 +370,11 @@ public class Mantenimiento extends javax.swing.JFrame {
         });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Desplazamiento\n"));
 
@@ -379,11 +435,33 @@ public class Mantenimiento extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Datos de Contacto"));
 
+        txtDireccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDireccionKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDireccionKeyReleased(evt);
+            }
+        });
+
         jLabel14.setText("Dirección :");
 
+        txtEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtEmailFocusLost(evt);
+            }
+        });
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
+            }
+        });
+        txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtEmailKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEmailKeyTyped(evt);
             }
         });
 
@@ -392,6 +470,14 @@ public class Mantenimiento extends javax.swing.JFrame {
         txtTelefono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTelefonoActionPerformed(evt);
+            }
+        });
+        txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTelefonoKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefonoKeyTyped(evt);
             }
         });
 
@@ -450,6 +536,48 @@ public class Mantenimiento extends javax.swing.JFrame {
         );
 
         btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        Foto_Container.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Foto Empleado"));
+
+        lblRuta.setFont(new java.awt.Font("Segoe UI", 0, 8)); // NOI18N
+        lblRuta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblRuta.setText("jLabel19");
+
+        javax.swing.GroupLayout Foto_ContainerLayout = new javax.swing.GroupLayout(Foto_Container);
+        Foto_Container.setLayout(Foto_ContainerLayout);
+        Foto_ContainerLayout.setHorizontalGroup(
+            Foto_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblRuta)
+        );
+        Foto_ContainerLayout.setVerticalGroup(
+            Foto_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Foto_ContainerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblFoto, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblRuta))
+        );
+
+        btnExaminar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        btnExaminar.setText("Examinar");
+        btnExaminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExaminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout FormRegEmpLayout = new javax.swing.GroupLayout(FormRegEmp);
         FormRegEmp.setLayout(FormRegEmpLayout);
@@ -460,18 +588,19 @@ public class Mantenimiento extends javax.swing.JFrame {
                     .addGroup(FormRegEmpLayout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(FormRegEmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(FormRegEmpLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(FormRegEmpLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(FormRegEmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(btnExaminar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                                    .addComponent(Foto_Container, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(FormRegEmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                                    .addComponent(btnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
                                     .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, FormRegEmpLayout.createSequentialGroup()
+                    .addGroup(FormRegEmpLayout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -481,27 +610,30 @@ public class Mantenimiento extends javax.swing.JFrame {
                         .addGap(28, 28, 28)
                         .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(11, 11, 11)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
         FormRegEmpLayout.setVerticalGroup(
             FormRegEmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(FormRegEmpLayout.createSequentialGroup()
-                .addGroup(FormRegEmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(FormRegEmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(FormRegEmpLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(FormRegEmpLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
+                        .addGap(19, 19, 19)
                         .addGroup(FormRegEmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(FormRegEmpLayout.createSequentialGroup()
+                                .addComponent(btnBuscar)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnNuevo)
-                                .addGap(33, 33, 33)
-                                .addComponent(btnBuscar)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCancelar))
+                            .addComponent(Foto_Container, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnExaminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FormRegEmpLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(FormRegEmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(FormRegEmpLayout.createSequentialGroup()
                         .addGap(50, 50, 50)
@@ -516,7 +648,7 @@ public class Mantenimiento extends javax.swing.JFrame {
                     .addGroup(FormRegEmpLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -524,12 +656,13 @@ public class Mantenimiento extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(FormRegEmp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 170, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(FormRegEmp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(FormRegEmp, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jTabbedPane2.addTab("Consultas", jPanel2);
@@ -552,6 +685,11 @@ public class Mantenimiento extends javax.swing.JFrame {
         jTextField4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField4.setToolTipText("Dni, Nombre, Apellido, Id, ");
         jTextField4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField4KeyPressed(evt);
+            }
+        });
 
         jLabel20.setText("Buscar:");
 
@@ -567,9 +705,9 @@ public class Mantenimiento extends javax.swing.JFrame {
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(229, 229, 229)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(192, 192, 192))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -581,7 +719,7 @@ public class Mantenimiento extends javax.swing.JFrame {
                     .addComponent(jButton1))
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(184, Short.MAX_VALUE))
+                .addContainerGap(258, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Datos", jPanel4);
@@ -590,13 +728,13 @@ public class Mantenimiento extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1142, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 25, Short.MAX_VALUE))
+            .addComponent(jTabbedPane2)
         );
 
         pack();
@@ -617,6 +755,7 @@ public class Mantenimiento extends javax.swing.JFrame {
 
     private void txtNombresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombresActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtNombresActionPerformed
 
     private void txtNumDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumDocActionPerformed
@@ -630,77 +769,6 @@ public class Mantenimiento extends javax.swing.JFrame {
     private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTelefonoActionPerformed
-
-    private void btnPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeroActionPerformed
-        /* TODO add your handling code here:
-        rsDes = envLog.mDesplazar();
-        try {
-            rsDes.first();
-
-            txtId.setText("" + rsDes.getInt(1) );
-            txtNombre.setText(rsDes.getString(2) );
-            txtTelefono.setText( rsDes.getString(3) );
-
-            System.out.println("executed");
-
-        } catch (Exception e) {
-            System.out.print( "Error" + e.getMessage());
-        }*/
-
-    }//GEN-LAST:event_btnPrimeroActionPerformed
-
-    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        /*TODO add your handling code here:
-        try {
-            if(rsDes.isLast()){
-                rsDes.last();
-            }else{
-                rsDes.next();
-            }
-
-            txtId.setText("" + rsDes.getInt(1) );
-            txtNombre.setText(rsDes.getString(2) );
-            txtTelefono.setText( rsDes.getString(3) );
-        } catch (Exception e) {
-            System.out.print( "Error" + e.getMessage());
-        }*/
-    }//GEN-LAST:event_btnSiguienteActionPerformed
-
-    private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
-        /* TODO add your handling code here:
-        rsDes = envLog.mDesplazar();
-        try {
-            rsDes.last();
-
-            txtId.setText("" + rsDes.getInt(1) );
-            txtNombre.setText(rsDes.getString(2) );
-            txtTelefono.setText( rsDes.getString(3) );
-
-            System.out.println("executed");
-
-        } catch (Exception e) {
-            System.out.print( "Error" + e.getMessage());
-        }*/
-    }//GEN-LAST:event_btnUltimoActionPerformed
-
-    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
-        /* TODO add your handling code here:
-        try {
-            if(rsDes.isFirst()){
-                rsDes.first();
-            }else{
-                rsDes.previous();
-            }
-
-            txtId.setText("" + rsDes.getInt(1) );
-            txtNombre.setText(rsDes.getString(2) );
-            txtTelefono.setText( rsDes.getString(3) );
-        } catch (Exception e) {
-            System.out.print( "Error" + e.getMessage());
-        }
-        */
-
-    }//GEN-LAST:event_btnAnteriorActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
@@ -754,67 +822,276 @@ public class Mantenimiento extends javax.swing.JFrame {
         limpiarCampos();
         botones(false);
         campos(true);
+        txtCod.setText(empLog.generarCodEmp()); 
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-
-        
-            //Binario de prueba:
-             // Tu cadena de origen AQUI DEBE CARGAR LA FOTO EN BINARIOS
-            String cadena = "Hola, mundo";
-
-            // Convierte la cadena a bytes
-            byte[] bytes = cadena.getBytes();
-        if(editMode == false){
-            Empleado emp = new Empleado(
-                    this.txtCod.getText(),
-                    this.txtNombres.getText(),
-                    this.txtApellidos.getText(),
-                    this.dcFecNacimiento.getDate(),
-                    this.cboSexo.getSelectedItem().toString(),
-                    this.cboEstadoCivil.getSelectedItem().toString(),
-                    this.cboNacionalidad.getSelectedItem().toString(),
-                    this.cboTipoDoc.getSelectedItem().toString(),
-                    this.txtNumDoc.getText(),
-                    (int)this.spnNumHijos.getValue(),
-                    this.cboDistrito.getSelectedItem().toString(),
-                    this.txtDireccion.getText(),
-                    this.txtEmail.getText(),
-                    this.txtTelefono.getText(),
-                    this.dcFecRegistro.getDate(),
-                    bytes,
-                    this.cboEstadoEmp.getSelectedItem().toString() 
-            );
-            if( empLog.agregarEmp(emp) ){
-            JOptionPane.showMessageDialog(null,"Registro Agregado");
-            
-            tblEmpleados.setModel(empLog.crearMdlEmpleado());
-            ajustarColumnas(tblEmpleados,19,130);
-            
-            }else{
-                JOptionPane.showMessageDialog(null, "Registro No agregado","",0);
+        if(utilitarios.Evaluar_FecNac(this.dcFecNacimiento.getDate()) && utilitarios.Evaluar_FecNac(this.dcFecRegistro.getDate())){
+            byte[] fotoBytes = null;
+            try {
+                fotoBytes = Files.readAllBytes(new File(lblRuta.getText()).toPath());
+            } catch (Exception e) {
+               // Logger.getLogger(Mantenimiento.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Errror en convertir bytes" + e.getMessage() + e.getCause());
             }
-        }else{
-            /*int cod = Integer.parseInt(txtId.getText());
-            if( envLog.actualizarEnvio(cod, nom, tel)){
-                JOptionPane.showMessageDialog(null,"Registro Actualizado con exito");
-                
-                band = false;
-                btnGuardar.setText("Guardar");
-                tblEnvio.setModel(envLog.listaEnvios());
+        
+        
+        
+            Empleado emp = new Empleado(
+                        this.txtCod.getText(),
+                        this.txtNombres.getText(),
+                        this.txtApellidos.getText(),
+                        this.dcFecNacimiento.getDate(),
+                        this.cboSexo.getSelectedItem().toString(),
+                        this.cboEstadoCivil.getSelectedItem().toString(),
+                        this.cboNacionalidad.getSelectedItem().toString(),
+                        this.cboTipoDoc.getSelectedItem().toString(),
+                        this.txtNumDoc.getText(),
+                        (int)this.spnNumHijos.getValue(),
+                        this.cboDistrito.getSelectedItem().toString(),
+                        this.txtDireccion.getText(),
+                        this.txtEmail.getText(),
+                        this.txtTelefono.getText(),
+                        this.dcFecRegistro.getDate(),
+                         fotoBytes,
+                        this.cboEstadoEmp.getSelectedItem().toString() 
+                );
+        
+            if(editMode == false){
+
+
+                if( empLog.agregarEmp(emp)){
+                    JOptionPane.showMessageDialog(null,"Registro Agregado");
+
+                    tblEmpleados.setModel(empLog.crearMdlEmpleado());
+                    ajustarColumnas(tblEmpleados,19,130);
+
+                }else{
+                    JOptionPane.showMessageDialog(null, "Registro No agregado","",0);
+                }
             }else{
-                JOptionPane.showMessageDialog(null, "No Actualizado","",0);
-                envLog.actualizarEnvio(cod, nom, tel);
-            }*/
+
+                if( empLog.actualizarEmp(emp) ){
+                    JOptionPane.showMessageDialog(null,"Registro Actualizado con exito");
+
+                    editMode = false;
+                    btnGuardar.setText("Guardar");
+                    tblEmpleados.setModel(empLog.crearMdlEmpleado());
+                    ajustarColumnas(tblEmpleados,19,130);
+                }else{
+                    JOptionPane.showMessageDialog(null, "No Se pudo actualizar","",0);
+
+                }
+            }
+            campos(false);
+            botones(true);
+            limpiarCampos();
         }
         
-        
-        
-        
-        campos(false);
-        botones(true);
-        limpiarCampos();
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        /* TODO add your handling code here:
+        try {
+            if(rsDes.isFirst()){
+                rsDes.first();
+            }else{
+                rsDes.previous();
+            }
+
+            txtId.setText("" + rsDes.getInt(1) );
+            txtNombre.setText(rsDes.getString(2) );
+            txtTelefono.setText( rsDes.getString(3) );
+        } catch (Exception e) {
+            System.out.print( "Error" + e.getMessage());
+        }
+        */
+    }//GEN-LAST:event_btnAnteriorActionPerformed
+
+    private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
+        /* TODO add your handling code here:
+        rsDes = envLog.mDesplazar();
+        try {
+            rsDes.last();
+
+            txtId.setText("" + rsDes.getInt(1) );
+            txtNombre.setText(rsDes.getString(2) );
+            txtTelefono.setText( rsDes.getString(3) );
+
+            System.out.println("executed");
+
+        } catch (Exception e) {
+            System.out.print( "Error" + e.getMessage());
+        }*/
+    }//GEN-LAST:event_btnUltimoActionPerformed
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        /*TODO add your handling code here:
+        try {
+            if(rsDes.isLast()){
+                rsDes.last();
+            }else{
+                rsDes.next();
+            }
+
+            txtId.setText("" + rsDes.getInt(1) );
+            txtNombre.setText(rsDes.getString(2) );
+            txtTelefono.setText( rsDes.getString(3) );
+        } catch (Exception e) {
+            System.out.print( "Error" + e.getMessage());
+        }*/
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void btnPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeroActionPerformed
+        /* TODO add your handling code here:
+        rsDes = envLog.mDesplazar();
+        try {
+            rsDes.first();
+
+            txtId.setText("" + rsDes.getInt(1) );
+            txtNombre.setText(rsDes.getString(2) );
+            txtTelefono.setText( rsDes.getString(3) );
+
+            System.out.println("executed");
+
+        } catch (Exception e) {
+            System.out.print( "Error" + e.getMessage());
+        }*/
+    }//GEN-LAST:event_btnPrimeroActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        if(!editMode){
+            limpiarCampos();
+            botones(true);
+            campos(false);
+        }else{
+            int Rpta = 0;
+            Rpta = JOptionPane.showConfirmDialog(null,"¿DESEA SALIR SIN GUARDAR LOS CAMBIOS?","Mensaje al usuario",
+                               JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+            if(Rpta==0){
+                limpiarCampos();
+                botones(true);
+                campos(false);
+                btnGuardar.setText("Guardar");
+            }
+        }
+        
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        String cod = (String) JOptionPane.showInputDialog("Ingrese el codigo de empleado");
+        if(empLog.eliminarEmp(cod)){
+            JOptionPane.showMessageDialog(null,"Se ha eliminado el registro");
+            limpiarCampos();
+            tblEmpleados.setModel(empLog.crearMdlEmpleado());
+        }else{
+            JOptionPane.showMessageDialog(null, "Registro de empleado no encontrado");
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+        botones(false);
+        campos(true);
+        this.btnGuardar.setText("Actualizar");
+        editMode = true;
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnExaminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExaminarActionPerformed
+        // TODO add your handling code here:
+        String ruta = utilitarios.rutaArchivo(this);
+        ImageIcon img = new ImageIcon(ruta);
+        Icon imagen = new ImageIcon(img.getImage().getScaledInstance(lblFoto.getWidth(),lblFoto.getHeight(), Image.SCALE_SMOOTH));
+        this.lblFoto.setIcon(imagen);
+        lblRuta.setText(ruta);
+        
+        
+        
+    }//GEN-LAST:event_btnExaminarActionPerformed
+
+    private void jTextField4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyPressed
+        // TODO add your handling code here:
+        
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            //Buscar(this.CBO_CampoConsulta.getSelectedItem().toString());
+        }
+    }//GEN-LAST:event_jTextField4KeyPressed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        utilitarios.Salir(this);
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void txtNombresKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombresKeyPressed
+        // TODO add your handling code here:
+        utilitarios.Cambiar_Cursor(evt, txtApellidos);
+        
+    }//GEN-LAST:event_txtNombresKeyPressed
+
+    private void txtDireccionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccionKeyPressed
+        // TODO add your handling code here:
+        utilitarios.Cambiar_Cursor(evt, txtEmail);
+    }//GEN-LAST:event_txtDireccionKeyPressed
+
+    private void txtApellidosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidosKeyPressed
+
+    }//GEN-LAST:event_txtApellidosKeyPressed
+
+    private void dcFecNacimientoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dcFecNacimientoKeyPressed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_dcFecNacimientoKeyPressed
+
+    private void txtNumDocKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumDocKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNumDocKeyPressed
+
+    private void txtDireccionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccionKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDireccionKeyReleased
+
+    private void txtEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyPressed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txtEmailKeyPressed
+
+    private void txtTelefonoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyPressed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txtTelefonoKeyPressed
+
+    private void txtNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombresKeyTyped
+        // TODO add your handling code here:
+        utilitarios.Solo_letras(evt);
+    }//GEN-LAST:event_txtNombresKeyTyped
+
+    private void txtApellidosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidosKeyTyped
+        // TODO add your handling code here:
+                // TODO add your handling code here:
+        utilitarios.Solo_letras(evt);
+    }//GEN-LAST:event_txtApellidosKeyTyped
+
+    private void txtNumDocKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumDocKeyTyped
+        // TODO add your handling code here:
+                utilitarios.Solo_numeros(evt, txtNumDoc);
+    }//GEN-LAST:event_txtNumDocKeyTyped
+
+    private void txtEmailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailKeyTyped
+
+    private void txtEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailFocusLost
+        // TODO add your handling code here:
+        utilitarios.Comprobar_Email(txtEmail);
+    }//GEN-LAST:event_txtEmailFocusLost
+
+    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
+        // TODO add your handling code here:
+        utilitarios.Solo_numeros(evt, txtTelefono);
+    }//GEN-LAST:event_txtTelefonoKeyTyped
+    
     void ajustarColumnas(JTable tbl,int numCols, int size){
         
         for(int i = 0; i< numCols; i++){
@@ -822,6 +1099,7 @@ public class Mantenimiento extends javax.swing.JFrame {
         }
        
     }
+    
     void cargarVista(Empleado emp){
        txtCod.setText(emp.getCod());
        txtNombres.setText(emp.getNombre());
@@ -836,12 +1114,14 @@ public class Mantenimiento extends javax.swing.JFrame {
        cboDepartamento.setSelectedItem(emp.getDepartamento());
        cboProvincia.setSelectedItem(emp.getProvincia());
        cboDistrito.setSelectedItem(emp.getDistrito());
+       cargarFoto(emp.getFoto());
        txtDireccion.setText(emp.getDireccion());
        txtEmail.setText(emp.getEmail());
        txtTelefono.setText(emp.getTelefono());
        dcFecRegistro.setDate(emp.getFecReg());
        cboEstadoEmp.setSelectedItem(emp.getEstado()); 
     }
+    
     void limpiarCampos(){
        txtCod.setText("");
        txtNombres.setText("");
@@ -860,13 +1140,15 @@ public class Mantenimiento extends javax.swing.JFrame {
        cboEstadoCivil.addItem("Viudo");
        
        dcFecNacimiento.setDate(null);
-       cargarCombo(cboNacionalidad,"Tb_Nacionalidad","Pais");
+       cargarCombo(cboNacionalidad,"Tb_Nacionalidad","Nacionalidad");
        cargarCombo(cboTipoDoc,"Tb_Doc_Identidad","Documento_Identidad");
        txtNumDoc.setText("");
        spnNumHijos.setValue(0);
        cargarCombo(cboDepartamento,"Tb_Departamento","Departamento");
        cboProvincia.removeAllItems();
        cboDistrito.removeAllItems();
+       lblFoto.setIcon(null);
+       lblRuta.setText("");
        txtDireccion.setText("");
        txtEmail.setText("");
        txtTelefono.setText("");
@@ -882,13 +1164,14 @@ public class Mantenimiento extends javax.swing.JFrame {
     public void botones(boolean b){
         btnNuevo.setEnabled(b);
         btnGuardar.setEnabled(!b);
+        btnCancelar.setEnabled(!b);
         btnBuscar.setEnabled(b);
         btnEliminar.setEnabled(b);
         btnEditar.setEnabled(b);
     }
     
     public void campos(boolean b){
-       //txtCod.setEnabled(false);
+       txtCod.setEnabled(false);
        txtNombres.setEnabled(b);
        txtApellidos.setEnabled(b);
        cboSexo.setEnabled(b);
@@ -918,7 +1201,6 @@ public class Mantenimiento extends javax.swing.JFrame {
            ResultSet rs = st.executeQuery(sql);
            while(rs.next()){
                combo.addItem(rs.getString(1));
-               System.out.println("Running");
            }
         }catch(SQLException Error ){
              JOptionPane.showMessageDialog(null, "Error en Cargar Combo"+Error.getMessage(),this.getTitle(),
@@ -937,7 +1219,6 @@ public class Mantenimiento extends javax.swing.JFrame {
            ResultSet rs = st.executeQuery(sql);
            while(rs.next()){
                cboProvincia.addItem(rs.getString(1));
-               System.out.println("Running");
            }
         }catch(SQLException Error ){
              JOptionPane.showMessageDialog(null, "Error en Cargar Combo"+Error.getMessage(),this.getTitle(),
@@ -945,6 +1226,7 @@ public class Mantenimiento extends javax.swing.JFrame {
         }
 
     }
+    
     public String bucarCodDep(){
         String codDep=null;
         try {
@@ -957,7 +1239,6 @@ public class Mantenimiento extends javax.swing.JFrame {
            
            if (rs.next()) { // Verifica que haya al menos una fila en el resultado
                 codDep = rs.getString(1); 
-                System.out.println("Corrieno el cod dep tomado " + codDep);
                 return codDep;// Obtiene el valor de la primera columna del primer resultado   
             }
         } catch (SQLException e) {
@@ -983,6 +1264,7 @@ public class Mantenimiento extends javax.swing.JFrame {
         }
 
     }
+    
     public String buscarCodProv(){
         String codProv=null;
         try {
@@ -1003,7 +1285,28 @@ public class Mantenimiento extends javax.swing.JFrame {
         return codProv;
     }
     
-    
+    void cargarFoto(byte[] bytesArr){
+        try {
+            
+            if(bytesArr != null){
+
+                InputStream is = new ByteArrayInputStream(bytesArr);
+                BufferedImage img = ImageIO.read(is);
+                File archivo = new File("img.jpg");
+
+                ImageIO.write(img, "jpg",archivo);
+
+                ImageIcon imagen = new ImageIcon(archivo.getAbsolutePath());
+                Icon icoImg = new ImageIcon(imagen.getImage().getScaledInstance(lblFoto.getWidth(),lblFoto.getHeight(), Image.SCALE_SMOOTH));
+                lblFoto.setIcon(icoImg);
+            }else{
+                JOptionPane.showMessageDialog(null, "No se ha encontrado una imagen en la base de datos del usuario");
+            }
+            
+        } catch (IOException e) {
+            System.out.println("Ha ocurrido un error garrafal " + e.getMessage()+  e.getStackTrace());
+        }
+    }
     
     
     
@@ -1048,10 +1351,13 @@ public class Mantenimiento extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel FormRegEmp;
+    private javax.swing.JPanel Foto_Container;
     private javax.swing.JButton btnAnterior;
     private javax.swing.JToggleButton btnBuscar;
+    private javax.swing.JToggleButton btnCancelar;
     private javax.swing.JToggleButton btnEditar;
     private javax.swing.JToggleButton btnEliminar;
+    private javax.swing.JButton btnExaminar;
     private javax.swing.JToggleButton btnGuardar;
     private javax.swing.JToggleButton btnNuevo;
     private javax.swing.JButton btnPrimero;
@@ -1097,6 +1403,7 @@ public class Mantenimiento extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel lblFoto;
+    private javax.swing.JLabel lblRuta;
     private javax.swing.JSpinner spnNumHijos;
     private javax.swing.JTable tblEmpleados;
     private javax.swing.JTextField txtApellidos;

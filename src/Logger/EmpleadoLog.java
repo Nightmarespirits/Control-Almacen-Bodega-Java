@@ -26,4 +26,13 @@ public class EmpleadoLog {
         
         return objDao.agregarEmp(emp);
     }
+    public String generarCodEmp(){
+        return objDao.generarCodEmp();
+    }
+     public Boolean eliminarEmp( String cod){
+         return objDao.eliminarEmp(cod);
+     }
+    public Boolean actualizarEmp(Empleado emp){
+        return objDao.actualizarEmp(emp);
+    }
 }
