@@ -5,7 +5,7 @@
  */
 package dao;
 
-import Model.User;
+import Model.Usuario;
 import dao.Conexion;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -22,8 +22,8 @@ public class UsuarioDao {
     
     //declaramos a una varible del tipo conection que instancia al metoo getCn de la clase conexion()
     Connection cn = cnx.getCn();
-    public User buscarUsuario(String codUsr){
-        User usr = null;
+    public Usuario buscarUsuario(String codUsr){
+        Usuario usr = null;
         try {
             String sql = "SELECT  dbo.Tb_Usuario.CodEmpleado, dbo.Tb_Empleado.Apellidos, dbo.Tb_Empleado.Nombres, dbo.Tb_Usuario.CodUsuario, dbo.Tb_Usuario.Clave, dbo.Tb_Perfil.Perfil, dbo.Tb_Area.Area, dbo.Tb_Cargo.Cargo\n" +
                         "FROM  dbo.Tb_Area INNER JOIN\n" +
@@ -38,7 +38,7 @@ public class UsuarioDao {
             ResultSet rs = st.executeQuery(sql);    
             
             while(rs.next()){
-                usr = new User(
+                usr = new Usuario(
                         rs.getString(1),
                         rs.getString(2),
                         rs.getString(3),

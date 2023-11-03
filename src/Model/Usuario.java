@@ -8,7 +8,7 @@ package Model;
  *
  * @author clide
  */
-public class User {
+public class Usuario {
     private String codUser;
     private String apellidos;
     private String nombres;
@@ -19,7 +19,7 @@ public class User {
     private String cargo;
     public String session;
 
-    public User(String codUser, String apellidos, String nombres, String username, String password, String rol, String area, String cargo) {
+    public Usuario(String codUser, String apellidos, String nombres, String username, String password, String rol, String area, String cargo) {
         this.codUser = codUser;
         this.apellidos = apellidos;
         this.nombres = nombres;

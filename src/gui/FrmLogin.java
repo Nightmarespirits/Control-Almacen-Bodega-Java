@@ -7,7 +7,7 @@ package gui;
 
 
 import Model.Session;
-import Model.User;
+import Model.Usuario;
 import dao.UsuarioDao;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
