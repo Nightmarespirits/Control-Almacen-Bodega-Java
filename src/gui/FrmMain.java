@@ -4,8 +4,12 @@
  */
 package gui;
 
+import Model.Session;
+import Model.User;
 import dao.Conexion;
+import dao.UsuarioDao;
 import java.awt.BorderLayout;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,8 +18,10 @@ import java.awt.BorderLayout;
 public class FrmMain extends javax.swing.JFrame {
 
     /**
-     * Creates new form main
+     * Metodo 
      */
+    
+    UsuarioDao usuDao = new UsuarioDao();
     public FrmMain() {
         initComponents();
         Conexion cn = new Conexion();
@@ -43,15 +49,27 @@ public class FrmMain extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        jMenu6 = new javax.swing.JMenu();
+        menuPerfil = new javax.swing.JMenu();
+        menuApellidos = new javax.swing.JMenu();
+        menuNombres = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
+        menuCerrarSesion = new javax.swing.JMenu();
+        menuIniciarSesion = new javax.swing.JMenu();
+        menuMantenimiento = new javax.swing.JMenu();
+        itemEmp = new javax.swing.JMenuItem();
+        itemProd = new javax.swing.JMenuItem();
+        itemContrat_Emp = new javax.swing.JMenuItem();
+        itemUsuarios = new javax.swing.JMenuItem();
+        menuMiPerfil = new javax.swing.JMenu();
+        menuAcercade = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tbl_AlmacenStock.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -73,14 +91,14 @@ public class FrmMain extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 859, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Almacén", jPanel1);
@@ -101,7 +119,7 @@ public class FrmMain extends javax.swing.JFrame {
             .addGroup(JPane_ProductosLayout.createSequentialGroup()
                 .addGap(237, 237, 237)
                 .addComponent(jButton1)
-                .addContainerGap(551, Short.MAX_VALUE))
+                .addContainerGap(497, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPane_ProductosLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
@@ -110,7 +128,7 @@ public class FrmMain extends javax.swing.JFrame {
         JPane_ProductosLayout.setVerticalGroup(
             JPane_ProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JPane_ProductosLayout.createSequentialGroup()
-                .addContainerGap(219, Short.MAX_VALUE)
+                .addContainerGap(81, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(85, 85, 85)
                 .addComponent(jButton2)
@@ -123,11 +141,11 @@ public class FrmMain extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 983, Short.MAX_VALUE)
+            .addGap(0, 929, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 439, Short.MAX_VALUE)
+            .addGap(0, 301, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Kardex", jPanel2);
@@ -136,11 +154,11 @@ public class FrmMain extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 983, Short.MAX_VALUE)
+            .addGap(0, 929, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 439, Short.MAX_VALUE)
+            .addGap(0, 301, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Entradas", jPanel3);
@@ -149,11 +167,11 @@ public class FrmMain extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 983, Short.MAX_VALUE)
+            .addGap(0, 929, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 439, Short.MAX_VALUE)
+            .addGap(0, 301, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Salidas", jPanel4);
@@ -162,64 +180,156 @@ public class FrmMain extends javax.swing.JFrame {
         Container.setLayout(ContainerLayout);
         ContainerLayout.setHorizontalGroup(
             ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGap(0, 980, Short.MAX_VALUE)
+            .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(ContainerLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         ContainerLayout.setVerticalGroup(
             ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGap(0, 380, Short.MAX_VALUE)
+            .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(ContainerLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        jMenu1.setText("[Bussinesname]");
-        jMenuBar1.add(jMenu1);
+        getContentPane().add(Container, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 380));
 
-        jMenu4.setText("[Username]");
-        jMenuBar1.add(jMenu4);
+        menuPerfil.setText("[perfil_usuario]");
+        menuPerfil.setBorderPainted(false);
+        menuPerfil.setContentAreaFilled(false);
+        menuPerfil.setEnabled(false);
+        menuPerfil.setFocusable(false);
+        menuPerfil.setMargin(new java.awt.Insets(3, 12, 3, 12));
+        menuPerfil.setRequestFocusEnabled(false);
+        menuPerfil.setRolloverEnabled(false);
+        menuPerfil.setVerifyInputWhenFocusTarget(false);
+        jMenuBar1.add(menuPerfil);
 
-        jMenu6.setText("[Usertype]");
-        jMenuBar1.add(jMenu6);
+        menuApellidos.setText("[Apellidos]");
+        menuApellidos.setEnabled(false);
+        menuApellidos.setFocusable(false);
+        menuApellidos.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        menuApellidos.setRolloverEnabled(false);
+        jMenuBar1.add(menuApellidos);
 
+        menuNombres.setText("[Nombres]");
+        menuNombres.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        menuNombres.setEnabled(false);
+        menuNombres.setFocusable(false);
+        menuNombres.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        jMenuBar1.add(menuNombres);
+
+        jMenu7.setEnabled(false);
         jMenu7.setMinimumSize(new java.awt.Dimension(50, 6));
+        jMenu7.setPreferredSize(new java.awt.Dimension(50, 6));
         jMenuBar1.add(jMenu7);
 
-        jMenu3.setText("Cerrar Sesion");
-        jMenuBar1.add(jMenu3);
-
-        jMenu2.setText("Iniciar Sesión");
-        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+        menuCerrarSesion.setText("Cerrar Sesion");
+        menuCerrarSesion.setMargin(new java.awt.Insets(3, 10, 3, 10));
+        menuCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu2MouseClicked(evt);
+                menuCerrarSesionMouseClicked(evt);
             }
         });
-        jMenu2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu2ActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(menuCerrarSesion);
 
-        jMenu5.setText("Acerca De");
-        jMenuBar1.add(jMenu5);
+        menuIniciarSesion.setText("Iniciar Sesión");
+        menuIniciarSesion.setMargin(new java.awt.Insets(3, 10, 3, 10));
+        menuIniciarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuIniciarSesionMouseClicked(evt);
+            }
+        });
+        menuIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuIniciarSesionActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(menuIniciarSesion);
+
+        menuMantenimiento.setText("Mantenimiento");
+        menuMantenimiento.setMargin(new java.awt.Insets(3, 10, 3, 10));
+
+        itemEmp.setText("Empleados");
+        itemEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemEmpActionPerformed(evt);
+            }
+        });
+        menuMantenimiento.add(itemEmp);
+
+        itemProd.setText("Productos");
+        menuMantenimiento.add(itemProd);
+
+        itemContrat_Emp.setText("Contrato de Empleados");
+        menuMantenimiento.add(itemContrat_Emp);
+
+        itemUsuarios.setText("Usuarios");
+        menuMantenimiento.add(itemUsuarios);
+
+        jMenuBar1.add(menuMantenimiento);
+
+        menuMiPerfil.setText("Mi Perfil");
+        menuMiPerfil.setMargin(new java.awt.Insets(3, 10, 3, 10));
+        jMenuBar1.add(menuMiPerfil);
+
+        menuAcercade.setText("Acerca De");
+        menuAcercade.setMargin(new java.awt.Insets(3, 10, 3, 10));
+        jMenuBar1.add(menuAcercade);
 
         setJMenuBar(jMenuBar1);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+    private void menuIniciarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuIniciarSesionMouseClicked
         // TODO add your handling code here:
         System.out.println("Hola desde el menu bar");
-    }//GEN-LAST:event_jMenu2MouseClicked
+        
+    }//GEN-LAST:event_menuIniciarSesionMouseClicked
+
+    private void menuIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuIniciarSesionActionPerformed
+        // TODO add your handling code here:
+        System.out.println("iniciar Sesion..");
+    }//GEN-LAST:event_menuIniciarSesionActionPerformed
+
+    private void itemEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEmpActionPerformed
+        // TODO add your handling code here:
+        Mantenimiento mnt = new Mantenimiento();
+        mnt.show();
+        
+        
+    }//GEN-LAST:event_itemEmpActionPerformed
+
+    private void menuCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCerrarSesionMouseClicked
+        // TODO add your handling code here:
+        System.out.println("cerrando Sesion..");
+        int answ = JOptionPane.showConfirmDialog(null, "", this.getTitle(), JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if(answ == 0){
+            Session.setSession("");
+            this.setVisible(false);
+            
+        }
+        
+    }//GEN-LAST:event_menuCerrarSesionMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+         
+        if(Session.getSession() != ""){
+            this.setTitle(Session.getTitle1());
+            User usuario = usuDao.buscarUsuario(Session.getSession());
+            this.menuPerfil.setText(usuario.getRol());
+            this.menuApellidos.setText(usuario.getApellidos());
+            this.menuNombres.setText(usuario.getNombres());
+        }
+        
+    }//GEN-LAST:event_formWindowOpened
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -233,12 +343,7 @@ public class FrmMain extends javax.swing.JFrame {
         JPane_Productos.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
-        // TODO add your handling code here:
-        System.out.println("iniciar Sesion..");
-    }//GEN-LAST:event_jMenu2ActionPerformed
-
-    /**
+    /** menuPerfil
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -277,14 +382,12 @@ public class FrmMain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Container;
     private javax.swing.JPanel JPane_Productos;
+    private javax.swing.JMenuItem itemContrat_Emp;
+    private javax.swing.JMenuItem itemEmp;
+    private javax.swing.JMenuItem itemProd;
+    private javax.swing.JMenuItem itemUsuarios;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
@@ -293,6 +396,14 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JMenu menuAcercade;
+    private javax.swing.JMenu menuApellidos;
+    private javax.swing.JMenu menuCerrarSesion;
+    private javax.swing.JMenu menuIniciarSesion;
+    private javax.swing.JMenu menuMantenimiento;
+    private javax.swing.JMenu menuMiPerfil;
+    private javax.swing.JMenu menuNombres;
+    private javax.swing.JMenu menuPerfil;
     private javax.swing.JTable tbl_AlmacenStock;
     // End of variables declaration//GEN-END:variables
 }
