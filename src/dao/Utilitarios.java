@@ -6,7 +6,7 @@ package dao;
 
 import com.sun.glass.events.KeyEvent;
 import gui.FrmMain;
-import gui.Mantenimiento;
+import gui.Empleados;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

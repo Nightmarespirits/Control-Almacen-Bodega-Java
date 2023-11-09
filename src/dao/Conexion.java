@@ -29,10 +29,6 @@ public class Conexion {
             //Realizamos la conexion usando el driver manager y su propiedad tomar conexion
             cn = DriverManager.getConnection(url);
             
-            //Imprimimos por consola para ve que todo vaya bien
-            System.out.println("Conexion establecida...");
-            
-            
         }catch(Exception e){
             
             //En caso suceda un error que imprima el tipo de error

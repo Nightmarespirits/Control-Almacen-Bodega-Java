@@ -249,6 +249,22 @@ public class EmpleadoDao {
         return band;
     }
     
-    
+    public Boolean contratoVigenteEmp(String codEmp){
+        Boolean band = false;
+        try {
+            String sql = "select Estado_Contrato from Tb_Contratacion_Empleado where CodEmpleado = '" + codEmp + "'";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                if("Vigente".equals(rs.getString(1))){
+                    band = true;
+                }
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Error en el buscar Contrarto de empleado" + e.getMessage());
+        }
+        return band;
+    }
     
 }

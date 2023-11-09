@@ -11,8 +11,7 @@ package Model;
 public class Session {
     private static String session = "";
     private static String title1 = "Bodega Elmer - Control de Almacén | Sistema de control de Almácen";
-    private static String title2 ="Bodega Elmer - Control de Almacén | ADMINISTRADOR";
-
+    private static String title2 = "Bodega Elmer - Control de Almacén | ADMINISTRADOR";
     public static String getSession() {
         return session;
     }
@@ -25,17 +24,10 @@ public class Session {
         return title1;
     }
 
-    public static void setTitle1(String title1) {
-        Session.title1 = title1;
-    }
-
     public static String getTitle2() {
         return title2;
     }
 
-    public static void setTitle2(String title2) {
-        Session.title2 = title2;
-    }
    
    
     

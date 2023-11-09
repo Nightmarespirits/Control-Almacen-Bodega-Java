@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/clide/OneDrive/Escritorio/proyectos/BodegaElmer_ControlAlmacen/src/Logger/EmpleadoLog.java</file>
-            <file>file:/C:/Users/clide/OneDrive/Escritorio/proyectos/BodegaElmer_ControlAlmacen/src/dao/EmpleadoDao.java</file>
-            <file>file:/C:/Users/clide/OneDrive/Escritorio/proyectos/BodegaElmer_ControlAlmacen/src/gui/Mantenimiento.java</file>
-            <file>file:/C:/Users/clide/OneDrive/Escritorio/proyectos/BodegaElmer_ControlAlmacen/src/dao/Utilitarios.java</file>
+            <file>file:/C:/Users/clide/OneDrive/Escritorio/proyectos/BodegaElmer_ControlAlmacen/src/gui/Usuarios.java</file>
+            <file>file:/C:/Users/clide/OneDrive/Escritorio/proyectos/BodegaElmer_ControlAlmacen/src/dao/UsuarioDao.java</file>
+            <file>file:/C:/Users/clide/OneDrive/Escritorio/proyectos/BodegaElmer_ControlAlmacen/src/gui/Empleados.java</file>
+            <file>file:/C:/Users/clide/OneDrive/Escritorio/proyectos/BodegaElmer_ControlAlmacen/src/gui/FrmMain.java</file>
+            <file>file:/C:/Users/clide/OneDrive/Escritorio/proyectos/BodegaElmer_ControlAlmacen/src/gui/FrmLogin.java</file>
         </group>
     </open-files>
 </project-private>

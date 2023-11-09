@@ -9,6 +9,7 @@ import Model.Producto;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.table.DefaultTableModel;
 
@@ -47,15 +48,19 @@ public class KardexDao {
          try {
              
              //CREAR INNER JOIN AQUI
-             String sql = "";
+             String sql = "SELECT * FROM view_Kardex";
              Statement st = cn.createStatement();
              ResultSet rs = st.executeQuery(sql);
              
-             mdl.addColumn("Codigo");
-             mdl.addColumn("Producto");
-             mdl.addColumn("Encargado");
-             mdl.addColumn("Tipo Operación");
+             mdl.addColumn("Numero de Operacion");
              mdl.addColumn("Fecha");
+             mdl.addColumn("Hora");
+             mdl.addColumn("Tipo Operación");
+             mdl.addColumn("Cantidad");
+             mdl.addColumn("Descripcion de Producto");
+             mdl.addColumn("Marca");
+             mdl.addColumn("Sucursal");
+             mdl.addColumn("Encargado");
              
              while(rs.next()){
                  Object data[] = {
@@ -63,14 +68,18 @@ public class KardexDao {
                      rs.getString(2),
                      rs.getString(3),
                      rs.getString(4),
-                     rs.getString(5)
+                     rs.getString(5),
+                     rs.getString(6),
+                     rs.getString(7),
+                     rs.getString(8),
+                     rs.getString(9)
                  };
                  
                  mdl.addRow(data);
              }
              
-         } catch (Exception e) {
-             System.out.println("Error en crearKardexMdl");
+         } catch (SQLException e) {
+             System.out.println("Error en crearKardexMdl" + e.getMessage() + e.getCause());
          }
          
          return mdl;

@@ -4,31 +4,44 @@
  */
 package Model;
 
+import java.util.Date;
+
 /**
  *
  * @author clide
  */
 public class Usuario {
-    private String codUser;
+    private String codEmp;
     private String apellidos;
     private String nombres;
-    private String username;
+    private String numDoc;
+    private String codUser;
     private String password;
     private String rol;
     private String area;
     private String cargo;
-    public String session;
+    private Date fecReg;
+    private String estadoUsuario;
+    private byte[] foto;
 
-    public Usuario(String codUser, String apellidos, String nombres, String username, String password, String rol, String area, String cargo) {
-        this.codUser = codUser;
+    public Usuario(String codEmp, String apellidos, String nombres, String numDoc, String codUser, String password, String rol, String area, String cargo, Date fecReg, String estadoUsuario, byte[] foto) {
+        this.codEmp = codEmp;
         this.apellidos = apellidos;
         this.nombres = nombres;
-        this.username = username;
+        this.numDoc = numDoc;
+        this.codUser = codUser;
         this.password = password;
         this.rol = rol;
         this.area = area;
         this.cargo = cargo;
+        this.fecReg = fecReg;
+        this.estadoUsuario = estadoUsuario;
+        this.foto = foto;
     }
+    public String session;
+    
+
+    
 
     public String getCodUser() {
         return codUser;
@@ -55,11 +68,11 @@ public class Usuario {
     }
 
     public String getUsername() {
-        return username;
+        return codUser;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.codUser = username;
     }
 
     public String getPassword() {
@@ -101,6 +114,45 @@ public class Usuario {
     public void setSession(String session) {
         this.session = session;
     }
-   
+   public String getCodEmp() {
+        return codEmp;
+    }
+
+    public void setCodEmp(String codEmp) {
+        this.codEmp = codEmp;
+    }
+
+    public Date getFecReg() {
+        return fecReg;
+    }
+
+    public void setFecReg(Date fecReg) {
+        this.fecReg = fecReg;
+    }
+
+    public String getEstadoUsuario() {
+        return estadoUsuario;
+    }
+
+    public void setEstadoUsuario(String estadoUsuario) {
+        this.estadoUsuario = estadoUsuario;
+    }
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
+    }
+
+    public String getNumDoc() {
+        return numDoc;
+    }
+
+    public void setNumDoc(String numDoc) {
+        this.numDoc = numDoc;
+    }
+    
     
 }

@@ -35,4 +35,8 @@ public class EmpleadoLog {
     public Boolean actualizarEmp(Empleado emp){
         return objDao.actualizarEmp(emp);
     }
+    
+    public boolean contratoVigenteEmp(String codEmp){
+        return objDao.contratoVigenteEmp(codEmp);
+    }
 }

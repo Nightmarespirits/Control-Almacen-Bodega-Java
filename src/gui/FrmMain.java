@@ -11,8 +11,10 @@ import dao.UsuarioDao;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.BorderFactory;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -74,14 +76,14 @@ public class FrmMain extends javax.swing.JFrame {
         Container.setLayout(ContainerLayout);
         ContainerLayout.setHorizontalGroup(
             ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 980, Short.MAX_VALUE)
+            .addGap(0, 990, Short.MAX_VALUE)
         );
         ContainerLayout.setVerticalGroup(
             ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 460, Short.MAX_VALUE)
         );
 
-        getContentPane().add(Container, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 980, 460));
+        getContentPane().add(Container, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 990, 460));
 
         btnProductos.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnProductos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -248,6 +250,11 @@ public class FrmMain extends javax.swing.JFrame {
         menuMantenimiento.add(itemContrat_Emp);
 
         itemUsuarios.setText("Usuarios");
+        itemUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemUsuariosActionPerformed(evt);
+            }
+        });
         menuMantenimiento.add(itemUsuarios);
 
         jMenuBar1.add(menuMantenimiento);
@@ -278,7 +285,7 @@ public class FrmMain extends javax.swing.JFrame {
 
     private void itemEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEmpActionPerformed
         // TODO add your handling code here:
-        Mantenimiento mnt = new Mantenimiento();
+        Empleados mnt = new Empleados();
         mnt.show();
         
         
@@ -298,14 +305,19 @@ public class FrmMain extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-         
-        if(Session.getSession() != ""){
-            this.setTitle(Session.getTitle1());
-            Usuario usuario = usuDao.buscarUsuario(Session.getSession());
-            this.menuPerfil.setText(usuario.getRol());
-
-            this.menuNombres.setText(usuario.getApellidos() + "" + usuario.getNombres());
-        }
+            String codEmp = Session.getSession();
+            if(!"".equals(codEmp)){
+                Usuario usuario = usuDao.crearUsuario(codEmp);
+                this.menuNombres.setText(usuario.getApellidos() + " " + usuario.getNombres());
+                this.menuPerfil.setText(usuario.getRol());
+                if("Administrativo".equals(usuario.getRol())){
+                    this.setTitle(Session.getTitle2());
+                }else{
+                    this.setTitle(Session.getTitle1());
+                }
+            }
+            
+        
         
     }//GEN-LAST:event_formWindowOpened
 
@@ -326,17 +338,15 @@ public class FrmMain extends javax.swing.JFrame {
         // Mostrar la interfaz
         
         Almacen a = new Almacen();
-        a.setSize(880, 480);
-        a.setLocation(0,0);
-        this.Container.removeAll();
-        this.Container.add(a,BorderLayout.CENTER);
-        this.Container.revalidate();
-        this.Container.repaint();
+        cargarPane(a);
         CambiarEstiloBTN(btnAlmacen);
     }//GEN-LAST:event_btnAlmacenMouseClicked
 
     private void btnKardexMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKardexMouseClicked
         CambiarEstiloBTN(btnKardex);
+        Kardex k = new Kardex();
+        cargarPane(k);
+        
     }//GEN-LAST:event_btnKardexMouseClicked
 
     private void btnEntradasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEntradasMouseClicked
@@ -360,17 +370,30 @@ public class FrmMain extends javax.swing.JFrame {
     private void btnReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseClicked
         CambiarEstiloBTN(btnReportes);
     }//GEN-LAST:event_btnReportesMouseClicked
+
+    private void itemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemUsuariosActionPerformed
+        // TODO add your handling code here:
+        Usuarios usr = new Usuarios();
+        usr.show();
+    }//GEN-LAST:event_itemUsuariosActionPerformed
+    void  cargarPane(JPanel frm){
+         frm.setSize(980, 480);
+         frm.setLocation(0,0);
+         this.Container.removeAll();
+         this.Container.add(frm,BorderLayout.CENTER);
+         this.Container.revalidate();
+         this.Container.repaint();
+     }
     
-    
-      public void CambiarEstiloBTN(JLabel l){
-        JLabel[] Botones = {this.btnAlmacen,this.btnProductos,this.btnKardex,this.btnEntradas,this.btnSalidas,this.btnReportes};
-        for (JLabel elem: Botones) {
-        //System.out.print(Botones[elem]);
-          elem.setForeground(Color.BLACK);
-          elem.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        }
-        l.setForeground(Color.BLUE);
-        l.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+    public void CambiarEstiloBTN(JLabel l){
+      JLabel[] Botones = {this.btnAlmacen,this.btnProductos,this.btnKardex,this.btnEntradas,this.btnSalidas,this.btnReportes};
+      for (JLabel elem: Botones) {
+      //System.out.print(Botones[elem]);
+        elem.setForeground(Color.BLACK);
+        elem.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+      }
+      l.setForeground(Color.BLUE);
+      l.setBorder(BorderFactory.createLineBorder(Color.BLUE));
     }
     /** menuPerfil
      * @param args the command line arguments

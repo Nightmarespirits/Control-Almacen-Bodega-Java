@@ -180,9 +180,8 @@ public class FrmLogin extends javax.swing.JFrame {
         
         String usu = txtUsu.getText();
         String pass = txtPas.getText();
-        
-        String patern = "tigo";
-        String res = usuDao.validarLogin(usu, pass, patern);
+       
+        String res = usuDao.validarLogin(usu, pass);
 
         
         if(res.equals("Ok")){
@@ -199,8 +198,6 @@ public class FrmLogin extends javax.swing.JFrame {
                     if(Start == 100){
                         timer.stop();
                         
-                        
-                        Session.setSession(txtUsu.getText());
                         
                         iniciarMain();
                         
@@ -255,8 +252,12 @@ public class FrmLogin extends javax.swing.JFrame {
     
     void iniciarMain(){
         FrmMain frame = new FrmMain();
+        UsuarioDao usuDao = new UsuarioDao();
+        String codEmp = usuDao.codEmp(this.txtUsu.getText());
+        Session.setSession(codEmp);
         frame.show();
         this.hide();
+        
     }
     
     void cargarFoto(byte[] bytesArr){
