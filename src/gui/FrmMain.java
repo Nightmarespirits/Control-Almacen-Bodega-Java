@@ -3,18 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package gui;
-
 import Model.Session;
 import Model.Usuario;
+import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import dao.Conexion;
 import dao.UsuarioDao;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import gui.MantenimientoForms.Contratos;
+import gui.MantenimientoForms.Empleados;
+import gui.MantenimientoForms.Usuarios;
 
 /**
  *
@@ -27,8 +31,10 @@ public class FrmMain extends javax.swing.JFrame {
      */
     
     UsuarioDao usuDao = new UsuarioDao();
+    JPanel  cnt = this.Container;
     public FrmMain() {
         initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         Conexion cn = new Conexion();
         cn.getCn();
     }
@@ -42,27 +48,35 @@ public class FrmMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        flatAtomOneDarkContrastIJTheme1 = new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkContrastIJTheme();
+        flatArcOrangeIJTheme1 = new com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme();
+        Salidas_Container = new javax.swing.JPanel();
         Container = new javax.swing.JPanel();
-        navBar = new javax.swing.JPanel();
-        btnProductos = new javax.swing.JLabel();
-        btnAlmacen = new javax.swing.JLabel();
-        btnKardex = new javax.swing.JLabel();
-        btnEntradas = new javax.swing.JLabel();
-        btnSalidas = new javax.swing.JLabel();
-        btnReportes = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        menuPerfil = new javax.swing.JMenu();
-        menuNombres = new javax.swing.JMenu();
-        jMenu7 = new javax.swing.JMenu();
-        menuCerrarSesion = new javax.swing.JMenu();
-        menuIniciarSesion = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
         menuMantenimiento = new javax.swing.JMenu();
         itemEmp = new javax.swing.JMenuItem();
         itemProd = new javax.swing.JMenuItem();
         itemContrat_Emp = new javax.swing.JMenuItem();
         itemUsuarios = new javax.swing.JMenuItem();
+        menuCerrarSesion = new javax.swing.JMenu();
+        menuIniciarSesion = new javax.swing.JMenu();
         menuMiPerfil = new javax.swing.JMenu();
         menuAcercade = new javax.swing.JMenu();
+        jMenu7 = new javax.swing.JMenu();
+        menuNombres = new javax.swing.JMenu();
+        menuPerfil = new javax.swing.JMenu();
+
+        javax.swing.GroupLayout Salidas_ContainerLayout = new javax.swing.GroupLayout(Salidas_Container);
+        Salidas_Container.setLayout(Salidas_ContainerLayout);
+        Salidas_ContainerLayout.setHorizontalGroup(
+            Salidas_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1046, Short.MAX_VALUE)
+        );
+        Salidas_ContainerLayout.setVerticalGroup(
+            Salidas_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 469, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -76,138 +90,54 @@ public class FrmMain extends javax.swing.JFrame {
         Container.setLayout(ContainerLayout);
         ContainerLayout.setHorizontalGroup(
             ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 990, Short.MAX_VALUE)
+            .addGap(0, 1320, Short.MAX_VALUE)
         );
         ContainerLayout.setVerticalGroup(
             ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 460, Short.MAX_VALUE)
+            .addGap(0, 670, Short.MAX_VALUE)
         );
 
-        getContentPane().add(Container, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 990, 460));
+        getContentPane().add(Container, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1320, 670));
 
-        btnProductos.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnProductos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnProductos.setText("Productos");
-        btnProductos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+        jMenu1.setText("Inicio");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnProductosMouseClicked(evt);
+                jMenu1MouseClicked(evt);
             }
         });
+        jMenuBar1.add(jMenu1);
 
-        btnAlmacen.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnAlmacen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnAlmacen.setText("Almacén");
-        btnAlmacen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnAlmacen.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnAlmacenMouseClicked(evt);
+        menuMantenimiento.setText("Mantenimiento");
+        menuMantenimiento.setMargin(new java.awt.Insets(3, 10, 3, 10));
+
+        itemEmp.setText("Empleados");
+        itemEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemEmpActionPerformed(evt);
             }
         });
+        menuMantenimiento.add(itemEmp);
 
-        btnKardex.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnKardex.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnKardex.setText("Kardex");
-        btnKardex.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnKardex.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnKardexMouseClicked(evt);
+        itemProd.setText("Productos");
+        menuMantenimiento.add(itemProd);
+
+        itemContrat_Emp.setText("Contrato de Empleados");
+        itemContrat_Emp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemContrat_EmpActionPerformed(evt);
             }
         });
+        menuMantenimiento.add(itemContrat_Emp);
 
-        btnEntradas.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnEntradas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnEntradas.setText("Entradas");
-        btnEntradas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnEntradas.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnEntradas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnEntradasMouseClicked(evt);
+        itemUsuarios.setText("Usuarios");
+        itemUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemUsuariosActionPerformed(evt);
             }
         });
+        menuMantenimiento.add(itemUsuarios);
 
-        btnSalidas.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnSalidas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnSalidas.setText("Salidas");
-        btnSalidas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnSalidas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSalidasMouseClicked(evt);
-            }
-        });
-
-        btnReportes.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnReportes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnReportes.setText("Reportes");
-        btnReportes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnReportes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnReportesMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout navBarLayout = new javax.swing.GroupLayout(navBar);
-        navBar.setLayout(navBarLayout);
-        navBarLayout.setHorizontalGroup(
-            navBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 980, Short.MAX_VALUE)
-            .addGroup(navBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(navBarLayout.createSequentialGroup()
-                    .addGap(29, 29, 29)
-                    .addComponent(btnAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(btnProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(btnKardex, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(btnEntradas, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(btnSalidas, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(172, Short.MAX_VALUE)))
-        );
-        navBarLayout.setVerticalGroup(
-            navBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 80, Short.MAX_VALUE)
-            .addGroup(navBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(navBarLayout.createSequentialGroup()
-                    .addGap(30, 30, 30)
-                    .addGroup(navBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnKardex, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(navBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnEntradas, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSalidas, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap(10, Short.MAX_VALUE)))
-        );
-
-        getContentPane().add(navBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 80));
-
-        menuPerfil.setText("[perfil_usuario]");
-        menuPerfil.setBorderPainted(false);
-        menuPerfil.setContentAreaFilled(false);
-        menuPerfil.setEnabled(false);
-        menuPerfil.setFocusable(false);
-        menuPerfil.setMargin(new java.awt.Insets(3, 12, 3, 12));
-        menuPerfil.setRequestFocusEnabled(false);
-        menuPerfil.setRolloverEnabled(false);
-        menuPerfil.setVerifyInputWhenFocusTarget(false);
-        jMenuBar1.add(menuPerfil);
-
-        menuNombres.setText("[Nombres]");
-        menuNombres.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        menuNombres.setEnabled(false);
-        menuNombres.setFocusable(false);
-        menuNombres.setMargin(new java.awt.Insets(3, 0, 3, 0));
-        jMenuBar1.add(menuNombres);
-
-        jMenu7.setEnabled(false);
-        jMenu7.setMinimumSize(new java.awt.Dimension(50, 6));
-        jMenu7.setPreferredSize(new java.awt.Dimension(50, 6));
-        jMenuBar1.add(jMenu7);
+        jMenuBar1.add(menuMantenimiento);
 
         menuCerrarSesion.setText("Cerrar Sesion");
         menuCerrarSesion.setMargin(new java.awt.Insets(3, 10, 3, 10));
@@ -232,33 +162,6 @@ public class FrmMain extends javax.swing.JFrame {
         });
         jMenuBar1.add(menuIniciarSesion);
 
-        menuMantenimiento.setText("Mantenimiento");
-        menuMantenimiento.setMargin(new java.awt.Insets(3, 10, 3, 10));
-
-        itemEmp.setText("Empleados");
-        itemEmp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemEmpActionPerformed(evt);
-            }
-        });
-        menuMantenimiento.add(itemEmp);
-
-        itemProd.setText("Productos");
-        menuMantenimiento.add(itemProd);
-
-        itemContrat_Emp.setText("Contrato de Empleados");
-        menuMantenimiento.add(itemContrat_Emp);
-
-        itemUsuarios.setText("Usuarios");
-        itemUsuarios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemUsuariosActionPerformed(evt);
-            }
-        });
-        menuMantenimiento.add(itemUsuarios);
-
-        jMenuBar1.add(menuMantenimiento);
-
         menuMiPerfil.setText("Mi Perfil");
         menuMiPerfil.setMargin(new java.awt.Insets(3, 10, 3, 10));
         jMenuBar1.add(menuMiPerfil);
@@ -266,6 +169,29 @@ public class FrmMain extends javax.swing.JFrame {
         menuAcercade.setText("Acerca De");
         menuAcercade.setMargin(new java.awt.Insets(3, 10, 3, 10));
         jMenuBar1.add(menuAcercade);
+
+        jMenu7.setEnabled(false);
+        jMenu7.setMinimumSize(new java.awt.Dimension(50, 6));
+        jMenu7.setPreferredSize(new java.awt.Dimension(50, 6));
+        jMenuBar1.add(jMenu7);
+
+        menuNombres.setText("[Nombres]");
+        menuNombres.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        menuNombres.setEnabled(false);
+        menuNombres.setFocusable(false);
+        menuNombres.setMargin(new java.awt.Insets(3, 0, 3, 0));
+        jMenuBar1.add(menuNombres);
+
+        menuPerfil.setText("[perfil_usuario]");
+        menuPerfil.setBorderPainted(false);
+        menuPerfil.setContentAreaFilled(false);
+        menuPerfil.setEnabled(false);
+        menuPerfil.setFocusable(false);
+        menuPerfil.setMargin(new java.awt.Insets(3, 12, 3, 12));
+        menuPerfil.setRequestFocusEnabled(false);
+        menuPerfil.setRolloverEnabled(false);
+        menuPerfil.setVerifyInputWhenFocusTarget(false);
+        jMenuBar1.add(menuPerfil);
 
         setJMenuBar(jMenuBar1);
 
@@ -285,8 +211,8 @@ public class FrmMain extends javax.swing.JFrame {
 
     private void itemEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEmpActionPerformed
         // TODO add your handling code here:
-        Empleados mnt = new Empleados();
-        mnt.show();
+        Empleados empleados = new Empleados();
+        cargarPane(empleados);
         
         
     }//GEN-LAST:event_itemEmpActionPerformed
@@ -304,7 +230,9 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_menuCerrarSesionMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
+        // 
+            Inicio home = new Inicio();
+            cargarPane(home);
             String codEmp = Session.getSession();
             if(!"".equals(codEmp)){
                 Usuario usuario = usuDao.crearUsuario(codEmp);
@@ -321,63 +249,27 @@ public class FrmMain extends javax.swing.JFrame {
         
     }//GEN-LAST:event_formWindowOpened
 
-    private void btnProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProductosMouseClicked
-        
-        Productos rp = new Productos();
-        rp.setSize(880, 480);
-        rp.setLocation(0,0);
-        this.Container.removeAll();
-        this.Container.add(rp,BorderLayout.CENTER);
-        this.Container.revalidate();
-        this.Container.repaint();
-        CambiarEstiloBTN(btnProductos);
-
-    }//GEN-LAST:event_btnProductosMouseClicked
-
-    private void btnAlmacenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlmacenMouseClicked
-        // Mostrar la interfaz
-        
-        Almacen a = new Almacen();
-        cargarPane(a);
-        CambiarEstiloBTN(btnAlmacen);
-    }//GEN-LAST:event_btnAlmacenMouseClicked
-
-    private void btnKardexMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKardexMouseClicked
-        CambiarEstiloBTN(btnKardex);
-        Kardex k = new Kardex();
-        cargarPane(k);
-        
-    }//GEN-LAST:event_btnKardexMouseClicked
-
-    private void btnEntradasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEntradasMouseClicked
-        // Mostrar la interfaz
-        
-        Entradas rp = new Entradas();
-        rp.setSize(880, 480);
-        rp.setLocation(0,0);
-        this.Container.removeAll();
-        this.Container.add(rp,BorderLayout.CENTER);
-        this.Container.revalidate();
-        this.Container.repaint();
-        CambiarEstiloBTN(btnEntradas);
-
-    }//GEN-LAST:event_btnEntradasMouseClicked
-
-    private void btnSalidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalidasMouseClicked
-        CambiarEstiloBTN(btnSalidas);
-    }//GEN-LAST:event_btnSalidasMouseClicked
-
-    private void btnReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseClicked
-        CambiarEstiloBTN(btnReportes);
-    }//GEN-LAST:event_btnReportesMouseClicked
-
     private void itemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemUsuariosActionPerformed
         // TODO add your handling code here:
         Usuarios usr = new Usuarios();
-        usr.show();
+        cargarPane(usr);
     }//GEN-LAST:event_itemUsuariosActionPerformed
+
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+        // TODO add your handling code here:
+        System.out.println("Revalidando..");
+        Inicio home = new Inicio();
+        cargarPane(home);
+         
+    }//GEN-LAST:event_jMenu1MouseClicked
+
+    private void itemContrat_EmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemContrat_EmpActionPerformed
+        // TODO add your handling code here:
+        Contratos contratos = new Contratos();
+        cargarPane(contratos);
+    }//GEN-LAST:event_itemContrat_EmpActionPerformed
     void  cargarPane(JPanel frm){
-         frm.setSize(980, 480);
+         frm.setSize(Container.getWidth(),Container.getHeight());
          frm.setLocation(0,0);
          this.Container.removeAll();
          this.Container.add(frm,BorderLayout.CENTER);
@@ -385,7 +277,7 @@ public class FrmMain extends javax.swing.JFrame {
          this.Container.repaint();
      }
     
-    public void CambiarEstiloBTN(JLabel l){
+    /**public void CambiarEstiloBTN(JLabel l){
       JLabel[] Botones = {this.btnAlmacen,this.btnProductos,this.btnKardex,this.btnEntradas,this.btnSalidas,this.btnReportes};
       for (JLabel elem: Botones) {
       //System.out.print(Botones[elem]);
@@ -394,35 +286,14 @@ public class FrmMain extends javax.swing.JFrame {
       }
       l.setForeground(Color.BLUE);
       l.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-    }
-    /** menuPerfil
-     * @param args the command line arguments
-     */
+    }*/
+    
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+           FlatArcIJTheme.setup();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        //</editor-fold>
-        //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -433,16 +304,14 @@ public class FrmMain extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Container;
-    private javax.swing.JLabel btnAlmacen;
-    private javax.swing.JLabel btnEntradas;
-    private javax.swing.JLabel btnKardex;
-    private javax.swing.JLabel btnProductos;
-    private javax.swing.JLabel btnReportes;
-    private javax.swing.JLabel btnSalidas;
+    private javax.swing.JPanel Salidas_Container;
+    private com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme flatArcOrangeIJTheme1;
+    private com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkContrastIJTheme flatAtomOneDarkContrastIJTheme1;
     private javax.swing.JMenuItem itemContrat_Emp;
     private javax.swing.JMenuItem itemEmp;
     private javax.swing.JMenuItem itemProd;
     private javax.swing.JMenuItem itemUsuarios;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu menuAcercade;
@@ -452,6 +321,5 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JMenu menuMiPerfil;
     private javax.swing.JMenu menuNombres;
     private javax.swing.JMenu menuPerfil;
-    private javax.swing.JPanel navBar;
     // End of variables declaration//GEN-END:variables
 }

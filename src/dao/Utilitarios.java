@@ -6,7 +6,6 @@ package dao;
 
 import com.sun.glass.events.KeyEvent;
 import gui.FrmMain;
-import gui.Empleados;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,6 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -26,7 +26,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Utilitarios {
     
     //Este metodo cuando es llamado abre un nuevo JFile Chooser, y retorna una ruta del archivo que se ha seleccionado
-    public String rutaArchivo(JFrame frm){
+    public String rutaArchivo(JPanel frm){
         String ruta = "";
         
         //FileNameExtensionFilter filtro = new FileNameExtensionFilter("jpg","png");

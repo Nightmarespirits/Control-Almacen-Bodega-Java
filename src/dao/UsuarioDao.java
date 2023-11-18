@@ -147,7 +147,6 @@ public class UsuarioDao {
             cs.setString(7, estadoUsr);
             if(cs.executeUpdate() > 0){
                 band = true;
-                band = true;
             }
         } catch (SQLException e) {
             System.out.println("Ha ocurrido un error al agragar usuario: " + e.getMessage() + e.getCause());
