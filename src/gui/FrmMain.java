@@ -6,6 +6,9 @@ package gui;
 import Model.Session;
 import Model.Usuario;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
+import com.raven.component.BreadcrumbItem;
+import com.raven.event.EventItemSelected;
+import com.raven.main.Main;
 import dao.Conexion;
 import dao.UsuarioDao;
 import java.awt.BorderLayout;
@@ -16,10 +19,10 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import gui.MantenimientoForms.Contratos;
-import gui.MantenimientoForms.Empleados;
-import gui.MantenimientoForms.Usuarios;
-
+import gui.MantenimientoForms.MntContratos;
+import gui.MantenimientoForms.MntEmpleados;
+import gui.MantenimientoForms.MntProductos;
+import gui.MantenimientoForms.MntUsuarios;
 /**
  *
  * @author clide
@@ -32,11 +35,19 @@ public class FrmMain extends javax.swing.JFrame {
     
     UsuarioDao usuDao = new UsuarioDao();
     JPanel  cnt = this.Container;
+    
+    int indexBreadCumb ;
     public FrmMain() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         Conexion cn = new Conexion();
         cn.getCn();
+         breadCumbHome.setEvent(new EventItemSelected() {
+            @Override
+            public void selected(BreadcrumbItem item) {
+                indexBreadCumb = item.getIndex();
+            }
+        });
     }
 
     /**
@@ -52,6 +63,10 @@ public class FrmMain extends javax.swing.JFrame {
         flatArcOrangeIJTheme1 = new com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme();
         Salidas_Container = new javax.swing.JPanel();
         Container = new javax.swing.JPanel();
+        breadCumbHome = new com.raven.component.Breadcrumb();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         menuMantenimiento = new javax.swing.JMenu();
@@ -90,14 +105,41 @@ public class FrmMain extends javax.swing.JFrame {
         Container.setLayout(ContainerLayout);
         ContainerLayout.setHorizontalGroup(
             ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1320, Short.MAX_VALUE)
+            .addGap(0, 1340, Short.MAX_VALUE)
         );
         ContainerLayout.setVerticalGroup(
             ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 670, Short.MAX_VALUE)
+            .addGap(0, 630, Short.MAX_VALUE)
         );
 
-        getContentPane().add(Container, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1320, 670));
+        getContentPane().add(Container, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 1340, 630));
+
+        breadCumbHome.setForeground(new java.awt.Color(89, 89, 89));
+        getContentPane().add(breadCumbHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, -1, -1));
+
+        jButton1.setText("indx");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, -1, -1));
+
+        jButton2.setText("createBre");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 40, -1, -1));
+
+        jButton3.setText("remove");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 0, -1, -1));
 
         jMenu1.setText("Inicio");
         jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -119,6 +161,11 @@ public class FrmMain extends javax.swing.JFrame {
         menuMantenimiento.add(itemEmp);
 
         itemProd.setText("Productos");
+        itemProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemProdActionPerformed(evt);
+            }
+        });
         menuMantenimiento.add(itemProd);
 
         itemContrat_Emp.setText("Contrato de Empleados");
@@ -164,10 +211,20 @@ public class FrmMain extends javax.swing.JFrame {
 
         menuMiPerfil.setText("Mi Perfil");
         menuMiPerfil.setMargin(new java.awt.Insets(3, 10, 3, 10));
+        menuMiPerfil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuMiPerfilMouseClicked(evt);
+            }
+        });
         jMenuBar1.add(menuMiPerfil);
 
         menuAcercade.setText("Acerca De");
         menuAcercade.setMargin(new java.awt.Insets(3, 10, 3, 10));
+        menuAcercade.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuAcercadeMouseClicked(evt);
+            }
+        });
         jMenuBar1.add(menuAcercade);
 
         jMenu7.setEnabled(false);
@@ -200,8 +257,9 @@ public class FrmMain extends javax.swing.JFrame {
 
     private void menuIniciarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuIniciarSesionMouseClicked
         // TODO add your handling code here:
-        System.out.println("Hola desde el menu bar");
-        
+        FrmLogin log = new FrmLogin();
+        this.setVisible(false);
+        log.setVisible(true); 
     }//GEN-LAST:event_menuIniciarSesionMouseClicked
 
     private void menuIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuIniciarSesionActionPerformed
@@ -211,19 +269,21 @@ public class FrmMain extends javax.swing.JFrame {
 
     private void itemEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEmpActionPerformed
         // TODO add your handling code here:
-        Empleados empleados = new Empleados();
+        MntEmpleados empleados = new MntEmpleados();
         cargarPane(empleados);
-        
+        cargarBreadCumb("Empleados");
         
     }//GEN-LAST:event_itemEmpActionPerformed
 
     private void menuCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCerrarSesionMouseClicked
         // TODO add your handling code here:
         System.out.println("cerrando Sesion..");
-        int answ = JOptionPane.showConfirmDialog(null, "", this.getTitle(), JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        int answ = JOptionPane.showConfirmDialog(null, "¿Seguro que desea Cerrar Session?", this.getTitle(), JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
         if(answ == 0){
             Session.setSession("");
             this.setVisible(false);
+            FrmLogin login = new FrmLogin();
+            login.setVisible(true);
             
         }
         
@@ -231,6 +291,7 @@ public class FrmMain extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // 
+            
             Inicio home = new Inicio();
             cargarPane(home);
             String codEmp = Session.getSession();
@@ -240,8 +301,11 @@ public class FrmMain extends javax.swing.JFrame {
                 this.menuPerfil.setText(usuario.getRol());
                 if("Administrativo".equals(usuario.getRol())){
                     this.setTitle(Session.getTitle2());
+                    this.menuIniciarSesion.setVisible(false);
                 }else{
+                    this.menuIniciarSesion.setVisible(false);
                     this.setTitle(Session.getTitle1());
+                    this.menuMantenimiento.setVisible(false);
                 }
             }
             
@@ -251,23 +315,66 @@ public class FrmMain extends javax.swing.JFrame {
 
     private void itemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemUsuariosActionPerformed
         // TODO add your handling code here:
-        Usuarios usr = new Usuarios();
+        MntUsuarios usr = new MntUsuarios();
         cargarPane(usr);
+        cargarBreadCumb("Usuarios");
     }//GEN-LAST:event_itemUsuariosActionPerformed
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
         // TODO add your handling code here:
-        System.out.println("Revalidando..");
+        
         Inicio home = new Inicio();
         cargarPane(home);
+        breadCumbHome.remove(3);
+        breadCumbHome.remove(2);
+        breadCumbHome.remove(1);
          
     }//GEN-LAST:event_jMenu1MouseClicked
 
     private void itemContrat_EmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemContrat_EmpActionPerformed
         // TODO add your handling code here:
-        Contratos contratos = new Contratos();
+        MntContratos contratos = new MntContratos();
         cargarPane(contratos);
+        cargarBreadCumb("Contratos");
+        
+        
     }//GEN-LAST:event_itemContrat_EmpActionPerformed
+
+    private void itemProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemProdActionPerformed
+        // TODO add your handling code here:
+        MntProductos mntProd = new MntProductos();
+        cargarPane(mntProd );
+        cargarBreadCumb("Productos");
+       
+        
+    }//GEN-LAST:event_itemProdActionPerformed
+
+    private void menuMiPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuMiPerfilMouseClicked
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_menuMiPerfilMouseClicked
+
+    private void menuAcercadeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAcercadeMouseClicked
+        // TODO add your handling code here:
+        breadCumbHome.removeAll();
+    }//GEN-LAST:event_menuAcercadeMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        System.out.println(indexBreadCumb);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        breadCumbHome.addItem("new");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        breadCumbHome.removeAll();
+
+    }//GEN-LAST:event_jButton3ActionPerformed
     void  cargarPane(JPanel frm){
          frm.setSize(Container.getWidth(),Container.getHeight());
          frm.setLocation(0,0);
@@ -276,17 +383,19 @@ public class FrmMain extends javax.swing.JFrame {
          this.Container.revalidate();
          this.Container.repaint();
      }
-    
-    /**public void CambiarEstiloBTN(JLabel l){
-      JLabel[] Botones = {this.btnAlmacen,this.btnProductos,this.btnKardex,this.btnEntradas,this.btnSalidas,this.btnReportes};
-      for (JLabel elem: Botones) {
-      //System.out.print(Botones[elem]);
-        elem.setForeground(Color.BLACK);
-        elem.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-      }
-      l.setForeground(Color.BLUE);
-      l.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-    }*/
+
+     void cargarBreadCumb(String txt){
+         System.out.println(indexBreadCumb);
+        if(indexBreadCumb == 0){
+            breadCumbHome.addItem("Mantenimiento");
+            breadCumbHome.addItem(txt);
+        }else{
+            for( int i = 0; i < indexBreadCumb; i++){
+                breadCumbHome.remove(indexBreadCumb - i);
+            }
+        }
+        
+     }
     
     public static void main(String args[]) {
         try {
@@ -305,12 +414,16 @@ public class FrmMain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Container;
     private javax.swing.JPanel Salidas_Container;
+    private com.raven.component.Breadcrumb breadCumbHome;
     private com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme flatArcOrangeIJTheme1;
     private com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkContrastIJTheme flatAtomOneDarkContrastIJTheme1;
     private javax.swing.JMenuItem itemContrat_Emp;
     private javax.swing.JMenuItem itemEmp;
     private javax.swing.JMenuItem itemProd;
     private javax.swing.JMenuItem itemUsuarios;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;

@@ -12,6 +12,7 @@ public class Session {
     private static String session = "";
     private static String title1 = "Bodega Elmer - Control de Almacén | Sistema de control de Almácen";
     private static String title2 = "Bodega Elmer - Control de Almacén | ADMINISTRADOR";
+    
     public static String getSession() {
         return session;
     }

@@ -5,12 +5,15 @@
 package dao;
 
 import Model.Empleado;
+import Model.Kardex;
 import Model.Producto;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,27 +24,43 @@ public class KardexDao {
     Conexion cnx = new Conexion();
     Connection cn = cnx.getCn();
     
-     public boolean AgregarKardex(Producto prod, Empleado emp){
+     public boolean AgregarKardex(Kardex operacion){
          
          boolean band = false;
          try {
-             CallableStatement cs = cn.prepareCall("{call usp_AgregarKardex(?,?)}");
-                cs.setString(1, prod.getNombre());
-                cs.setString(2, prod.getProducto());
-                cs.setString(3, prod.getMarca());
-                cs.setString(4, prod.getCategoria());
+             CallableStatement cs = cn.prepareCall("{call usp_agregarKardex(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+             
+             Date sqlDateFecOp = new Date(operacion.getFecOp().getTime());
+             Date sqlFecElab = new Date(operacion.getFecElab().getTime());
+             Date sqlFecVen = new Date(operacion.getFecVenc().getTime());
+                cs.setString(1, operacion.getNumOp());
+                cs.setString(2, operacion.getEmp());
+                cs.setDate(3,  sqlDateFecOp );
+                cs.setString(4, operacion.getTipoComp());
+                cs.setString(5, operacion.getNumSerieCom());
+                cs.setString(6, operacion.getTipoOp());
+                cs.setString(7, operacion.getSuc());
+                cs.setString(8, operacion.getcodBarra());
+                cs.setString(9, operacion.getNombreProd());
+                cs.setDate(10, sqlFecElab);
+                cs.setDate(11, sqlFecVen);
+                cs.setInt(12, Integer.parseInt(operacion.getCant()) );
+                cs.setDouble(13, Double.parseDouble(operacion.getCostoUnit()));
+                cs.setDouble(14, Double.parseDouble(operacion.getCostoTotal()));
+                cs.setString(15, operacion.getObs());
+                
+                
                 
             if(cs.executeUpdate() >0){
                 band = true;
             }
              
-         } catch (Exception e) {
+         } catch (NumberFormatException | SQLException e) {
              
-             System.out.println("Error en agregar kardex");
+             System.out.println("Error en agregar kardex" +  e.getMessage() + e.getCause());
          }
          return band;
      }
-     
      //Metodo para retornar un table model karde FALTA CREAR EL INNER JOIN
      public DefaultTableModel crearKardexMdl(){
          DefaultTableModel mdl = new DefaultTableModel();
@@ -83,6 +102,19 @@ public class KardexDao {
          }
          
          return mdl;
+     }
+     
+     public String generarNumOperacion(){
+         String numOp = "";
+         try {
+             CallableStatement cs = cn.prepareCall("{call USP_GenerarNumOp(?)}");
+             cs.registerOutParameter(1, Types.VARCHAR);
+             cs.executeUpdate();
+             numOp = cs.getString(1);
+         } catch (SQLException e) {
+             System.out.println("Error en generarNUmOperacion");
+         }
+         return numOp;
      }
        
 }

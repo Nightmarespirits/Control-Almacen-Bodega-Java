@@ -26,29 +26,145 @@ public class Inicio extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        almacen2 = new gui.Almacen();
+        tabbedHome = new javax.swing.JTabbedPane();
+        compAlmacen = new gui.Almacen();
+        compProd = new gui.Productos();
+        jPanel1 = new javax.swing.JPanel();
+        entradas1 = new gui.Entradas();
+        jPanel2 = new javax.swing.JPanel();
         kardex1 = new gui.Kardex();
+        btnVerAlmacen = new javax.swing.JButton();
+        btnAddNewProd = new javax.swing.JButton();
+        btnAddEntry = new javax.swing.JButton();
+        btnAddSalida = new javax.swing.JButton();
 
-        jTabbedPane1.addTab("Almacen", almacen2);
-        jTabbedPane1.addTab("Kardex", kardex1);
+        setPreferredSize(new java.awt.Dimension(1320, 640));
+
+        tabbedHome.addTab("Almacen", compAlmacen);
+        tabbedHome.addTab("Productos", compProd);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(entradas1, javax.swing.GroupLayout.DEFAULT_SIZE, 1320, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(entradas1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 72, Short.MAX_VALUE))
+        );
+
+        tabbedHome.addTab("Entradas", jPanel1);
+
+        btnVerAlmacen.setText("Ver Almacén");
+        btnVerAlmacen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerAlmacenActionPerformed(evt);
+            }
+        });
+
+        btnAddNewProd.setText("Agregar Nuevo Producto");
+        btnAddNewProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddNewProdActionPerformed(evt);
+            }
+        });
+
+        btnAddEntry.setText("Agregar Entrada ");
+        btnAddEntry.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddEntryActionPerformed(evt);
+            }
+        });
+
+        btnAddSalida.setText("Agregar Salida");
+        btnAddSalida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddSalidaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(btnAddEntry)
+                .addGap(48, 48, 48)
+                .addComponent(btnAddSalida)
+                .addGap(48, 48, 48)
+                .addComponent(btnAddNewProd)
+                .addGap(27, 27, 27)
+                .addComponent(btnVerAlmacen)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(kardex1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addComponent(kardex1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddEntry)
+                    .addComponent(btnAddSalida)
+                    .addComponent(btnVerAlmacen)
+                    .addComponent(btnAddNewProd))
+                .addGap(25, 25, 25))
+        );
+
+        tabbedHome.addTab("Kardex", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1058, Short.MAX_VALUE)
+            .addComponent(tabbedHome, javax.swing.GroupLayout.PREFERRED_SIZE, 1320, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
+            .addComponent(tabbedHome, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnVerAlmacenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerAlmacenActionPerformed
+        // TODO add your handling code here:
+        tabbedHome.setSelectedIndex(0);
+    }//GEN-LAST:event_btnVerAlmacenActionPerformed
+
+    private void btnAddNewProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNewProdActionPerformed
+        // TODO add your handling code here:
+        tabbedHome.setSelectedIndex(1);
+    }//GEN-LAST:event_btnAddNewProdActionPerformed
+
+    private void btnAddEntryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEntryActionPerformed
+        // TODO add your handling code here:
+       tabbedHome.setSelectedIndex(2);
+    }//GEN-LAST:event_btnAddEntryActionPerformed
+
+    private void btnAddSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSalidaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddSalidaActionPerformed
+    //Metodo para Cambiar el indice del JPPane
+    public void cambiarPane(int indx){
+        System.out.println(tabbedHome.getSelectedIndex());
+        tabbedHome.setSelectedIndex(indx);
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private gui.Almacen almacen2;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JButton btnAddEntry;
+    private javax.swing.JButton btnAddNewProd;
+    private javax.swing.JButton btnAddSalida;
+    private javax.swing.JButton btnVerAlmacen;
+    private gui.Almacen compAlmacen;
+    private gui.Productos compProd;
+    private gui.Entradas entradas1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private gui.Kardex kardex1;
+    public javax.swing.JTabbedPane tabbedHome;
     // End of variables declaration//GEN-END:variables
 }
